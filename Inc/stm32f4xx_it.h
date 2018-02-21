@@ -57,8 +57,9 @@ void SysTick_Handler(void);
 void ADC_IRQHandler(void);
 void TIM1_UP_TIM10_IRQHandler(void);
 void TIM2_IRQHandler(void);
+void SPI2_IRQHandler(void);
 void ETH_IRQHandler(void);
-void OTG_HS_IRQHandler(void);
+void OTG_FS_IRQHandler(void);
 void LTDC_IRQHandler(void);
 void LTDC_ER_IRQHandler(void);
 

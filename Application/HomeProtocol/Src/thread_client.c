@@ -64,10 +64,9 @@ void ClientThread_Main(const void * argument)
 
 	ipaddr_aton(HOMESERVER_HOST, &remote);
 	message = pvPortMalloc(sizeof(message_t));
+	conn = netconn_new(NETCONN_TCP);
 
 	while (1) {
-		conn = netconn_new(NETCONN_TCP);
-
 		if (netconn_connect(conn, &remote, HOMESERVER_PORT) == ERR_OK) {
 			netconn_set_recvtimeout(conn, 10);
 
@@ -113,7 +112,6 @@ void ClientThread_Main(const void * argument)
 				}
 				default:
 					netconn_close(conn);
-					netconn_delete(conn);
 					goto finished_connection;
 					break;
 				}
@@ -128,4 +126,6 @@ void ClientThread_Main(const void * argument)
 		 */
 		vTaskDelay(configTICK_RATE_HZ);
 	}
+
+	netconn_delete(conn);
 }

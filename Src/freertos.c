@@ -58,6 +58,7 @@
 #include "ltdc.h"
 #include "tim.h"
 #include "thread_client.h"
+#include "gfx.h"
 
 #include <string.h>
 
@@ -140,11 +141,11 @@ void StartDefaultTask(void const * argument)
 
   /* USER CODE BEGIN StartDefaultTask */
 
-  memset((void *)0xD0000000, 0xFFFFFFFF, 0x00800000);
+  memset((void *)0xD0000000, 0xFFFFFFFF, 0x800000);
 
   HAL_GPIO_WritePin(LCD_BLEN_GPIO_Port, LCD_BLEN_Pin, GPIO_PIN_SET);
-  HAL_LTDC_SetAddress(&hltdc, 0xD0000000, 0);
-  HAL_LTDC_Reload(&hltdc, LTDC_RELOAD_VERTICAL_BLANKING);
+
+  gfxInit();
 
   /* definition and creation of adcSampleTask */
   osThreadDef(clientTask, ClientThread_Main, osPriorityNormal, 0, 256);

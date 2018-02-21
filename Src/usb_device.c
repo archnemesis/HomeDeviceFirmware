@@ -56,7 +56,7 @@
 #include "usbd_cdc_if.h"
 
 /* USB Device Core handle declaration */
-USBD_HandleTypeDef hUsbDeviceHS;
+USBD_HandleTypeDef hUsbDeviceFS;
 
 /* init function */                                        
 void MX_USB_DEVICE_Init(void)
@@ -66,13 +66,13 @@ void MX_USB_DEVICE_Init(void)
   /* USER CODE END USB_DEVICE_Init_PreTreatment */
   
   /* Init Device Library,Add Supported Class and Start the library*/
-  USBD_Init(&hUsbDeviceHS, &HS_Desc, DEVICE_HS);
+  USBD_Init(&hUsbDeviceFS, &FS_Desc, DEVICE_FS);
 
-  USBD_RegisterClass(&hUsbDeviceHS, &USBD_CDC);
+  USBD_RegisterClass(&hUsbDeviceFS, &USBD_CDC);
 
-  USBD_CDC_RegisterInterface(&hUsbDeviceHS, &USBD_Interface_fops_HS);
+  USBD_CDC_RegisterInterface(&hUsbDeviceFS, &USBD_Interface_fops_FS);
 
-  USBD_Start(&hUsbDeviceHS);
+  USBD_Start(&hUsbDeviceFS);
 
   /* USER CODE BEGIN USB_DEVICE_Init_PostTreatment */
   

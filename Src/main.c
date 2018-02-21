@@ -54,6 +54,7 @@
 #include "ltdc.h"
 #include "lwip.h"
 #include "rtc.h"
+#include "spi.h"
 #include "tim.h"
 #include "usb_device.h"
 #include "gpio.h"
@@ -129,6 +130,7 @@ int main(void)
   MX_RTC_Init();
   MX_TIM2_Init();
   MX_LTDC_Init();
+  MX_SPI2_Init();
 
   /* USER CODE BEGIN 2 */
 

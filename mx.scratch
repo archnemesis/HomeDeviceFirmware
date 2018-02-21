@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Project>
-<ProjectName>E:\Projects\WaveShareDemo1\\WaveShareDemo1</ProjectName>
+<ProjectName>E:\Projects\HomeDeviceFirmware\\HomePanelFirmware</ProjectName>
 <CMSIS>..\Drivers\CMSIS</CMSIS>
 <HAL_Driver>C:\Users\Robin\STM32Cube\Repository\STM32Cube_FW_F4_V1.18.0\Drivers\CMSIS</HAL_Driver>
 
@@ -22,7 +22,7 @@
 
 <configs>
   <config>
-    <name>WaveShareDemo1</name>				
+    <name>HomePanelFirmware</name>				
     <device>STM32F429IGTx</device>		 
     <heapSize>0x200</heapSize>
     <stackSize>0x400</stackSize>

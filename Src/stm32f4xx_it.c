@@ -42,9 +42,10 @@
 
 /* External variables --------------------------------------------------------*/
 extern ETH_HandleTypeDef heth;
-extern PCD_HandleTypeDef hpcd_USB_OTG_HS;
+extern PCD_HandleTypeDef hpcd_USB_OTG_FS;
 extern ADC_HandleTypeDef hadc1;
 extern LTDC_HandleTypeDef hltdc;
+extern SPI_HandleTypeDef hspi2;
 extern TIM_HandleTypeDef htim2;
 
 extern TIM_HandleTypeDef htim1;
@@ -207,6 +208,20 @@ void TIM2_IRQHandler(void)
 }
 
 /**
+* @brief This function handles SPI2 global interrupt.
+*/
+void SPI2_IRQHandler(void)
+{
+  /* USER CODE BEGIN SPI2_IRQn 0 */
+
+  /* USER CODE END SPI2_IRQn 0 */
+  HAL_SPI_IRQHandler(&hspi2);
+  /* USER CODE BEGIN SPI2_IRQn 1 */
+
+  /* USER CODE END SPI2_IRQn 1 */
+}
+
+/**
 * @brief This function handles Ethernet global interrupt.
 */
 void ETH_IRQHandler(void)
@@ -221,17 +236,17 @@ void ETH_IRQHandler(void)
 }
 
 /**
-* @brief This function handles USB On The Go HS global interrupt.
+* @brief This function handles USB On The Go FS global interrupt.
 */
-void OTG_HS_IRQHandler(void)
+void OTG_FS_IRQHandler(void)
 {
-  /* USER CODE BEGIN OTG_HS_IRQn 0 */
+  /* USER CODE BEGIN OTG_FS_IRQn 0 */
 
-  /* USER CODE END OTG_HS_IRQn 0 */
-  HAL_PCD_IRQHandler(&hpcd_USB_OTG_HS);
-  /* USER CODE BEGIN OTG_HS_IRQn 1 */
+  /* USER CODE END OTG_FS_IRQn 0 */
+  HAL_PCD_IRQHandler(&hpcd_USB_OTG_FS);
+  /* USER CODE BEGIN OTG_FS_IRQn 1 */
 
-  /* USER CODE END OTG_HS_IRQn 1 */
+  /* USER CODE END OTG_FS_IRQn 1 */
 }
 
 /**
