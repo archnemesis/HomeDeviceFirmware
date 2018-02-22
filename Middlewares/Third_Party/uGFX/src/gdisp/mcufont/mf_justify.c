@@ -127,6 +127,7 @@ static void render_left(const struct mf_font_s *font,
     while (count--)
     {
         c2 = mf_getchar(&text);
+        //__BKPT();
         
         if (c2 == '\t')
         {
@@ -142,6 +143,7 @@ static void render_left(const struct mf_font_s *font,
         if (c1 != 0)
             x += mf_compute_kerning(font, c1, c2);
 
+        //__BKPT();
         x += callback(x, y0, c2, state);
         c1 = c2;
     }

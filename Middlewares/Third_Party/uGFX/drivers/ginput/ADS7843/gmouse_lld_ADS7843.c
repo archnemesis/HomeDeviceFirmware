@@ -19,6 +19,9 @@
 #define CMD_Y				0x91
 #define CMD_ENABLE_IRQ		0x80
 
+extern bool_t LoadMouseCalibration(unsigned instance, void *data, size_t sz);
+extern bool_t SaveMouseCalibration(unsigned instance, const void *data, size_t sz);
+
 static bool_t MouseXYZ(GMouse* m, GMouseReading* pdr)
 {
     (void)m;
@@ -64,8 +67,8 @@ const GMouseVMT const GMOUSE_DRIVER_VMT[1] = {{
 	init_board, 	// init
 	0,				// deinit
 	MouseXYZ,		// get
-	0,				// calsave
-	0				// calload
+	SaveMouseCalibration,				// calsave
+	LoadMouseCalibration				// calload
 }};
 
 #endif /* GFX_USE_GINPUT && GINPUT_NEED_MOUSE */

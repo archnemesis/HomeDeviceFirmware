@@ -467,8 +467,6 @@ static void MousePoll(void *param) {
 			gdispGSetClip(m->display, 0, 0, w, h);
 		#endif
 
-			__BKPT();
-
 		// Ensure we get minimally processed readings for the calibration
 		m->flags |= GMOUSE_FLG_IN_CAL;
 
@@ -485,8 +483,6 @@ static void MousePoll(void *param) {
             cross[3].x = w/2;	cross[3].y = h/2;
         }
 
-        __BKPT();
-
 		// Set up the calibration display
 		gdispGClear(m->display, Blue);
 		#if GDISP_NEED_TEXT
@@ -495,8 +491,6 @@ static void MousePoll(void *param) {
 								CALIBRATION_TITLE, font1,  CALIBRATION_TITLE_COLOR, CALIBRATION_TITLE_BACKGROUND,
 								justifyCenter);
 		#endif
-
-		__BKPT();
 
 		// Calculate the calibration
 		{
@@ -540,12 +534,8 @@ static void MousePoll(void *param) {
 			}
 		}
 
-		__BKPT();
-
 		// Apply 3 point calibration algorithm
 		CalibrationCalculate(m, cross, points);
-
-		__BKPT();
 
 		 /* Verification of correctness of calibration (optional) :
 		 *  See if the 4th point (Middle of the screen) coincides with the calibrated
@@ -604,8 +594,6 @@ static void MousePoll(void *param) {
 				err = 0;
 		}
 
-		__BKPT();
-
 		// We are done calibrating
 		#if GDISP_NEED_TEXT
 			gdispCloseFont(font1);
@@ -625,8 +613,6 @@ static void MousePoll(void *param) {
 				gmvmt(m)->calsave(m, &m->caldata, sizeof(GMouseCalibration));
 		}
 
-		__BKPT();
-
 		// Force an initial reading
 		m->r.buttons = 0;
 		GetMouseReading(m);
@@ -637,8 +623,6 @@ static void MousePoll(void *param) {
 		#else
 			gdispGClear(m->display, GDISP_STARTUP_COLOR);
 		#endif
-
-			__BKPT();
 
 		return err;
 	}

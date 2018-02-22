@@ -180,6 +180,7 @@ void mf_wordwrap(const struct mf_font_s *font, int16_t width,
     
     current.start = text;
     
+
     while (*text)
     {
         full = !append_word(font, width, &current, &text);

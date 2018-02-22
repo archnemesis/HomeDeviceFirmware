@@ -58,6 +58,7 @@
 #include "ltdc.h"
 #include "tim.h"
 #include "thread_client.h"
+#include "thread_ui.h"
 #include "gfx.h"
 
 #include <string.h>
@@ -71,6 +72,7 @@ osThreadId adcSampleTaskHandle;
 /* USER CODE BEGIN Variables */
 
 osThreadId clientTaskHandle;
+osThreadId uiTaskHandle;
 
 QueueHandle_t xSampleQueue;
 QueueHandle_t xBufferQueue;
@@ -150,6 +152,10 @@ void StartDefaultTask(void const * argument)
   /* definition and creation of adcSampleTask */
   osThreadDef(clientTask, ClientThread_Main, osPriorityNormal, 0, 256);
   adcSampleTaskHandle = osThreadCreate(osThread(clientTask), NULL);
+
+  /* definition and creation of adcSampleTask */
+  osThreadDef(uiTask, UserInterfaceThread_Main, osPriorityNormal, 0, 512);
+  uiTaskHandle = osThreadCreate(osThread(uiTask), NULL);
 
   /* Infinite loop */
   for(;;)

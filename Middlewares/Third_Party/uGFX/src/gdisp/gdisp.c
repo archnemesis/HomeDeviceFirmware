@@ -3520,11 +3520,9 @@ void gdispGDrawBox(GDisplay *g, coord_t x, coord_t y, coord_t cx, coord_t cy, co
 	void gdispGFillStringBox(GDisplay *g, coord_t x, coord_t y, coord_t cx, coord_t cy, const char* str, font_t font, color_t color, color_t bgcolor, justify_t justify) {
 		coord_t		totalHeight;
 
-		__BKPT();
 		if (!font)
 			return;
 		MUTEX_ENTER(g);
-		__BKPT();
 		g->p.x = x;
 		g->p.y = y;
 		g->p.cx = cx;
@@ -3535,8 +3533,6 @@ void gdispGDrawBox(GDisplay *g, coord_t x, coord_t y, coord_t cx, coord_t cy, co
 			// background fill
 			g->p.color = bgcolor;
 			fillarea(g);
-
-			__BKPT();
 
 			// Apply padding
 			#if GDISP_NEED_TEXT_BOXPADLR != 0 || GDISP_NEED_TEXT_BOXPADTB != 0
@@ -3551,16 +3547,12 @@ void gdispGDrawBox(GDisplay *g, coord_t x, coord_t y, coord_t cx, coord_t cy, co
 					#endif
 				}
 			#endif
-
-			__BKPT();
 			
 			// Save the clipping area
 			g->t.clipx0 = x;
 			g->t.clipy0 = y;
 			g->t.clipx1 = x+cx;
 			g->t.clipy1 = y+cy;
-
-			__BKPT();
 
 			// Calculate the total text height
 			#if GDISP_NEED_TEXT_WORDWRAP
@@ -3572,8 +3564,6 @@ void gdispGDrawBox(GDisplay *g, coord_t x, coord_t y, coord_t cx, coord_t cy, co
 				} else
 			#endif
 			totalHeight = font->height;
-
-				__BKPT();
 	
 			// Select the anchor position
 			switch((justify & JUSTIFYMASK_TOPBOTTOM)) {
@@ -3597,8 +3587,6 @@ void gdispGDrawBox(GDisplay *g, coord_t x, coord_t y, coord_t cx, coord_t cy, co
 				break;
 			}
 
-			__BKPT();
-
 			/* Render */
 			g->t.font = font;
 			g->t.color = color;
@@ -3613,13 +3601,11 @@ void gdispGDrawBox(GDisplay *g, coord_t x, coord_t y, coord_t cx, coord_t cy, co
 				} else
 			#endif
 
-			__BKPT();
 			mf_render_aligned(font, x, y, (justify & JUSTIFYMASK_LEFTRIGHT), str, 0, fillcharglyph, g);
 		}
-		__BKPT();
+
 		autoflush(g);
 		MUTEX_EXIT(g);
-		__BKPT();
 	}
 
 	coord_t gdispGetFontMetric(font_t font, fontmetric_t metric) {

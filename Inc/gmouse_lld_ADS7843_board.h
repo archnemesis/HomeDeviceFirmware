@@ -70,9 +70,7 @@ static bool_t init_board(GMouse* m, unsigned driverinstance) {
     (void)m;
     (void)driverinstance;
     uint8_t cmd = 0x80;
-    __BKPT();
     HAL_SPI_Transmit(&hspi2, &cmd, 1, HAL_MAX_DELAY);
-    __BKPT();
     return TRUE;
 }
 

@@ -81,10 +81,10 @@
 #define GDISP_NEED_CONVEX_POLYGON                      TRUE
 #define GDISP_NEED_SCROLL                              TRUE
 #define GDISP_NEED_PIXELREAD                           TRUE
-#define GDISP_NEED_CONTROL                             FALSE
-//#define GDISP_NEED_QUERY                             FALSE
-//#define GDISP_NEED_MULTITHREAD                       FALSE
-//#define GDISP_NEED_STREAMING                         FALSE
+#define GDISP_NEED_CONTROL                             TRUE
+#define GDISP_NEED_QUERY                               TRUE
+#define GDISP_NEED_MULTITHREAD                         TRUE
+#define GDISP_NEED_STREAMING                           TRUE
 #define GDISP_NEED_TEXT                                TRUE
       #define GDISP_NEED_TEXT_WORDWRAP                 TRUE
       #define GDISP_NEED_TEXT_BOXPADLR                 1
@@ -249,7 +249,7 @@
 ///////////////////////////////////////////////////////////////////////////
 #define GFX_USE_GEVENT                                 TRUE
 
-#define GEVENT_ASSERT_NO_RESOURCE                    TRUE
+#define GEVENT_ASSERT_NO_RESOURCE                    FALSE
 #define GEVENT_MAXIMUM_SIZE                          32
 #define GEVENT_MAX_SOURCE_LISTENERS                  32
 
@@ -286,7 +286,7 @@
       #define GINPUT_MOUSE_POLL_PERIOD                 25
       #define GINPUT_MOUSE_CLICK_TIME                  300
       #define GINPUT_TOUCH_CXTCLICK_TIME               700
-//    #define GINPUT_TOUCH_USER_CALIBRATION_LOAD       FALSE
+    #define GINPUT_TOUCH_USER_CALIBRATION_LOAD         TRUE
 //    #define GINPUT_TOUCH_USER_CALIBRATION_SAVE       FALSE
 //    #define GMOUSE_DRIVER_LIST                       GMOUSEVMT_Win32, GMOUSEVMT_Win32
 //#define GINPUT_NEED_KEYBOARD                         FALSE

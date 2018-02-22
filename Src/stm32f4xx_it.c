@@ -77,6 +77,7 @@ void HardFault_Handler(void)
   /* USER CODE END HardFault_IRQn 0 */
   while (1)
   {
+	  __BKPT();
   }
   /* USER CODE BEGIN HardFault_IRQn 1 */
 

@@ -10,7 +10,7 @@
 #if GFX_USE_GEVENT || defined(__DOXYGEN__)
 
 #if GEVENT_ASSERT_NO_RESOURCE
-	#define GEVENT_ASSERT(x)		assert(x)
+	#define GEVENT_ASSERT(x)		__BKPT()
 #else
 	#define GEVENT_ASSERT(x)
 #endif
