@@ -60,7 +60,7 @@
 //    #define GFX_OS_EXTRA_INIT_FUNCTION               myOSInitRoutine
 //    #define GFX_OS_EXTRA_DEINIT_FUNCTION             myOSDeInitRoutine
 //    #define GFX_OS_CALL_UGFXMAIN                     FALSE
-      #define GFX_OS_UGFXMAIN_STACKSIZE                512
+      #define GFX_OS_UGFXMAIN_STACKSIZE                2048
 //    #define GFX_EMULATE_MALLOC                       FALSE
 
 
@@ -197,7 +197,7 @@
           #define GWIN_FLASHING_PERIOD                 250
 
 #define GWIN_NEED_CONSOLE                              TRUE
-//    #define GWIN_CONSOLE_USE_HISTORY                 FALSE
+      #define GWIN_CONSOLE_USE_HISTORY                 TRUE
 //        #define GWIN_CONSOLE_HISTORY_AVERAGING       FALSE
 //        #define GWIN_CONSOLE_HISTORY_ATCREATE        FALSE
 //    #define GWIN_CONSOLE_ESCSEQ                      FALSE
@@ -228,14 +228,14 @@
 //        #define GWIN_KEYBOARD_DEFAULT_LAYOUT         VirtualKeyboard_English1
 //        #define GWIN_NEED_KEYBOARD_ENGLISH1          TRUE
 //    #define GWIN_NEED_TEXTEDIT                       FALSE
-//    #define GWIN_FLAT_STYLING                        FALSE
+      #define GWIN_FLAT_STYLING                        TRUE
 //    #define GWIN_WIDGET_TAGS                         FALSE
 
-#define GWIN_NEED_CONTAINERS                         TRUE
+#define GWIN_NEED_CONTAINERS                           TRUE
       #define GWIN_NEED_CONTAINER                      TRUE
       #define GWIN_NEED_FRAME                          TRUE
       #define GWIN_NEED_TABSET                         TRUE
-//        #define GWIN_TABSET_TABHEIGHT                18
+      #define GWIN_TABSET_TABHEIGHT                    30
 
 
 ///////////////////////////////////////////////////////////////////////////

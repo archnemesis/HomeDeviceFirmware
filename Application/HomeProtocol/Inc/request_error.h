@@ -14,7 +14,7 @@
 struct request_error_message {
   uint16_t code;
   char message[16];
-} __attribute__((packed));
+} __packed;
 
 typedef struct request_error_message request_error_message_t;
 

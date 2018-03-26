@@ -51,8 +51,11 @@
 #include "stm32f4xx_hal.h"
 #include "cmsis_os.h"
 #include "adc.h"
+#include "dac.h"
+#include "dma.h"
 #include "ltdc.h"
-#include "lwip.h"
+#include "mbedtls.h"
+#include "rng.h"
 #include "rtc.h"
 #include "spi.h"
 #include "tim.h"
@@ -125,12 +128,16 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
+  MX_DMA_Init();
   MX_FMC_Init();
   MX_ADC1_Init();
   MX_RTC_Init();
   MX_TIM2_Init();
   MX_LTDC_Init();
   MX_SPI2_Init();
+  MX_RNG_Init();
+  MX_DAC_Init();
+  MX_TIM6_Init();
 
   /* USER CODE BEGIN 2 */
 
@@ -281,27 +288,6 @@ void SystemClock_Config(void)
 /* USER CODE BEGIN 4 */
 
 /* USER CODE END 4 */
-
-/**
-  * @brief  Period elapsed callback in non blocking mode
-  * @note   This function is called  when TIM1 interrupt took place, inside
-  * HAL_TIM_IRQHandler(). It makes a direct call to HAL_IncTick() to increment
-  * a global variable "uwTick" used as application time base.
-  * @param  htim : TIM handle
-  * @retval None
-  */
-void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
-{
-/* USER CODE BEGIN Callback 0 */
-
-/* USER CODE END Callback 0 */
-  if (htim->Instance == TIM1) {
-    HAL_IncTick();
-  }
-/* USER CODE BEGIN Callback 1 */
-
-/* USER CODE END Callback 1 */
-}
 
 /**
   * @brief  This function is executed in case of error occurrence.

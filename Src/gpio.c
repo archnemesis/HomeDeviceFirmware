@@ -87,7 +87,10 @@ void MX_GPIO_Init(void)
   HAL_GPIO_WritePin(GPIOF, LED1_Pin|LED2_Pin|LED3_Pin|LED4_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOD, LCD_BLEN_Pin|XPT2046_CS_Pin, GPIO_PIN_SET);
+  HAL_GPIO_WritePin(LCD_BLEN_GPIO_Port, LCD_BLEN_Pin, GPIO_PIN_RESET);
+
+  /*Configure GPIO pin Output Level */
+  HAL_GPIO_WritePin(XPT2046_CS_GPIO_Port, XPT2046_CS_Pin, GPIO_PIN_SET);
 
   /*Configure GPIO pin : PtPin */
   GPIO_InitStruct.Pin = XPT2046_PENIRQ_Pin;

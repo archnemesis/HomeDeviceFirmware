@@ -61,6 +61,8 @@
 									<listOptionValue builtIn="false" value="../Middlewares/Third_Party/LwIP/src/include/posix/sys" />
 									<listOptionValue builtIn="false" value="../Middlewares/Third_Party/LwIP/system/arch" />
 									<listOptionValue builtIn="false" value="../Drivers/CMSIS/Include" />
+									<listOptionValue builtIn="false" value="../Middlewares/Third_Party/mbedTLS/include" />
+									<listOptionValue builtIn="false" value="../Middlewares/Third_Party/mbedTLS/include/mbedtls" />
 								</option>
 								<option id="gnu.c.compiler.option.preprocessor.def.symbols.1964299104" name="Defined symbols (-D)" superClass="gnu.c.compiler.option.preprocessor.def.symbols" useByScannerDiscovery="false" valueType="definedSymbols">
 									<listOptionValue builtIn="false" value="_TIMEVAL_DEFINED" />
@@ -70,7 +72,8 @@
 									<listOptionValue builtIn="false" value="USE_HAL_DRIVER" />
 									<listOptionValue builtIn="false" value="STM32F429xx" />
 									<listOptionValue builtIn="false" value="HOMESERVER_HOST=&quot;10.1.1.140&quot;" />
-									<listOptionValue builtIn="false" value="HOMESERVER_PORT=2005" />
+									<listOptionValue builtIn="false" value="HOMESERVER_PORT=&quot;2005&quot;" />
+									<listOptionValue builtIn="false" value="MBEDTLS_CONFIG_FILE=&quot;mbedtls_config.h&quot;" />
 								</option>
 								<option id="fr.ac6.managedbuild.gnu.c.compiler.option.misc.other.326908657" superClass="fr.ac6.managedbuild.gnu.c.compiler.option.misc.other" useByScannerDiscovery="false" value="-fmessage-length=0" valueType="string" />
 								<option id="gnu.c.compiler.option.include.files.2024207105" name="Include files (-include)" superClass="gnu.c.compiler.option.include.files" useByScannerDiscovery="false" />
@@ -167,6 +170,8 @@
 									<listOptionValue builtIn="false" value="../Middlewares/Third_Party/LwIP/src/include/posix/sys" />
 									<listOptionValue builtIn="false" value="../Middlewares/Third_Party/LwIP/system/arch" />
 									<listOptionValue builtIn="false" value="../Drivers/CMSIS/Include" />
+									<listOptionValue builtIn="false" value="../Middlewares/Third_Party/mbedTLS/include" />
+									<listOptionValue builtIn="false" value="../Middlewares/Third_Party/mbedTLS/include/mbedtls" />
 								</option>
 								<option id="gnu.c.compiler.option.preprocessor.def.symbols.1964299104" name="Defined symbols (-D)" superClass="gnu.c.compiler.option.preprocessor.def.symbols" useByScannerDiscovery="false" valueType="definedSymbols">
 									<listOptionValue builtIn="false" value="_TIMEVAL_DEFINED" />
@@ -175,6 +180,7 @@
 									<listOptionValue builtIn="false" value="__packed=__attribute__((__packed__))" />
 									<listOptionValue builtIn="false" value="USE_HAL_DRIVER" />
 									<listOptionValue builtIn="false" value="STM32F429xx" />
+									<listOptionValue builtIn="false" value="MBEDTLS_CONFIG_FILE=&quot;mbedtls_config.h&quot;" />
 								</option>
 								<option id="fr.ac6.managedbuild.gnu.c.compiler.option.misc.other.326908657" superClass="fr.ac6.managedbuild.gnu.c.compiler.option.misc.other" useByScannerDiscovery="false" value="-fmessage-length=0" valueType="string" />
 								<inputType id="fr.ac6.managedbuild.tool.gnu.cross.c.compiler.input.c.1204379041" superClass="fr.ac6.managedbuild.tool.gnu.cross.c.compiler.input.c" />

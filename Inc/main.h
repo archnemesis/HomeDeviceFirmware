@@ -68,6 +68,8 @@
 #define LED3_GPIO_Port GPIOF
 #define LED4_Pin GPIO_PIN_9
 #define LED4_GPIO_Port GPIOF
+#define AUDIO_OUT_Pin GPIO_PIN_4
+#define AUDIO_OUT_GPIO_Port GPIOA
 #define LCD_BLEN_Pin GPIO_PIN_4
 #define LCD_BLEN_GPIO_Port GPIOD
 #define XPT2046_CS_Pin GPIO_PIN_5

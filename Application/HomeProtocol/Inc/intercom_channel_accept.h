@@ -6,16 +6,15 @@
 #include <stdint.h>
 
 #define MESSAGE_INTERCOM_CHANNEL_ACCEPT_ID 4
-#define MESSAGE_INTERCOM_CHANNEL_ACCEPT_LENGTH 12
+#define MESSAGE_INTERCOM_CHANNEL_ACCEPT_LENGTH 6
 
 /**
  * Sent when a client accepts communications from the server.
  */
 struct intercom_channel_accept_message {
-  char hwid_caller[6];
-  uint32_t local_channel_ip;
-  uint16_t local_channel_port;
-} __attribute__((packed));
+  uint32_t remote_addr;
+  uint16_t remote_port;
+} __packed;
 
 typedef struct intercom_channel_accept_message intercom_channel_accept_message_t;
 

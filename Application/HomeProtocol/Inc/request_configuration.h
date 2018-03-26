@@ -15,7 +15,7 @@ struct request_configuration_message {
   char hwid[6];
   uint32_t ipaddr;
   char name[16];
-} __attribute__((packed));
+} __packed;
 
 typedef struct request_configuration_message request_configuration_message_t;
 

@@ -6,7 +6,7 @@
 #include <stdint.h>
 
 #define MESSAGE_CONFIGURATION_PAYLOAD_ID 5
-#define MESSAGE_CONFIGURATION_PAYLOAD_LENGTH 66
+#define MESSAGE_CONFIGURATION_PAYLOAD_LENGTH 234
 
 /**
  * Delivers most settings needed by standard clients.
@@ -15,7 +15,14 @@ struct configuration_payload_message {
   char display_name[32];
   char description[32];
   uint16_t theme;
-} __attribute__((packed));
+  struct {
+    uint16_t controltype;
+    uint32_t min;
+    uint32_t max;
+    char name[16];
+    char description[16];
+  } __packed controls[4];
+} __packed;
 
 typedef struct configuration_payload_message configuration_payload_message_t;
 

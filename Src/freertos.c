@@ -59,6 +59,7 @@
 #include "tim.h"
 #include "thread_client.h"
 #include "thread_ui.h"
+#include "thread_intercom.h"
 #include "gfx.h"
 
 #include <string.h>
@@ -73,6 +74,7 @@ osThreadId adcSampleTaskHandle;
 
 osThreadId clientTaskHandle;
 osThreadId uiTaskHandle;
+osThreadId intercomTaskHandle;
 
 QueueHandle_t xSampleQueue;
 QueueHandle_t xBufferQueue;
@@ -87,6 +89,7 @@ void StartAdcSampleTask(void const * argument);
 
 extern void MX_LWIP_Init(void);
 extern void MX_USB_DEVICE_Init(void);
+extern void MX_MBEDTLS_Init(void);
 void MX_FREERTOS_Init(void); /* (MISRA C 2004 rule 8.1) */
 
 /* USER CODE BEGIN FunctionPrototypes */
@@ -119,10 +122,6 @@ void MX_FREERTOS_Init(void) {
   osThreadDef(defaultTask, StartDefaultTask, osPriorityNormal, 0, 128);
   defaultTaskHandle = osThreadCreate(osThread(defaultTask), NULL);
 
-  /* definition and creation of adcSampleTask */
-  osThreadDef(adcSampleTask, StartAdcSampleTask, osPriorityNormal, 0, 256);
-  adcSampleTaskHandle = osThreadCreate(osThread(adcSampleTask), NULL);
-
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */
   /* USER CODE END RTOS_THREADS */
@@ -135,11 +134,14 @@ void MX_FREERTOS_Init(void) {
 /* StartDefaultTask function */
 void StartDefaultTask(void const * argument)
 {
-  /* init code for LWIP */
-  MX_LWIP_Init();
+  /* MX_LWIP_Init() is generated within mbedtls_net_init() function in net_cockets.c file */
+  /* Up to user to call mbedtls_net_init() function in MBEDTLS initialization step */
 
   /* init code for USB_DEVICE */
   MX_USB_DEVICE_Init();
+
+  /* Up to user define the empty MX_MBEDTLS_Init() function located in mbedtls.c file */
+  MX_MBEDTLS_Init();
 
   /* USER CODE BEGIN StartDefaultTask */
 
@@ -148,14 +150,21 @@ void StartDefaultTask(void const * argument)
   HAL_GPIO_WritePin(LCD_BLEN_GPIO_Port, LCD_BLEN_Pin, GPIO_PIN_SET);
 
   gfxInit();
+  ClientThread_Init();
+  UserInterfaceThread_Init();
+  IntercomThread_Init();
 
   /* definition and creation of adcSampleTask */
-  osThreadDef(clientTask, ClientThread_Main, osPriorityNormal, 0, 256);
-  adcSampleTaskHandle = osThreadCreate(osThread(clientTask), NULL);
+  osThreadDef(clientTask, ClientThread_Main, osPriorityNormal, 0, 2048);
+  clientTaskHandle = osThreadCreate(osThread(clientTask), NULL);
 
   /* definition and creation of adcSampleTask */
   osThreadDef(uiTask, UserInterfaceThread_Main, osPriorityNormal, 0, 512);
   uiTaskHandle = osThreadCreate(osThread(uiTask), NULL);
+
+  /* intercom task */
+  osThreadDef(intercomTask, IntercomThread_Main, osPriorityNormal, 0, 1024);
+  intercomTaskHandle = osThreadCreate(osThread(intercomTask), NULL);
 
   /* Infinite loop */
   for(;;)

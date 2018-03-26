@@ -6,16 +6,14 @@
 #include <stdint.h>
 
 #define MESSAGE_INTERCOM_CHANNEL_REQUEST_ID 3
-#define MESSAGE_INTERCOM_CHANNEL_REQUEST_LENGTH 12
+#define MESSAGE_INTERCOM_CHANNEL_REQUEST_LENGTH 6
 
 /**
  * Sent when a client is requesting communications from the server.
  */
 struct intercom_channel_request_message {
-  char hwid_caller[6];
-  uint32_t remote_channel_ip;
-  uint16_t remote_channel_port;
-} __attribute__((packed));
+  char hwid_callee[6];
+} __packed;
 
 typedef struct intercom_channel_request_message intercom_channel_request_message_t;
 

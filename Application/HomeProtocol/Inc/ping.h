@@ -13,7 +13,7 @@
  */
 struct ping_message {
   uint32_t timestamp;
-} __attribute__((packed));
+} __packed;
 
 typedef struct ping_message ping_message_t;
 

@@ -42,6 +42,7 @@
 		   		<include></include>
     </Aincludes>
     <Cdefines>
+        <define>MBEDTLS_CONFIG_FILE=&quot;mbedtls_config.h&quot;</define>
         <define>_TIMEVAL_DEFINED</define>
         <define>_SYS_TIME_H_</define>
         <define>__weak=__attribute__((weak))</define>
@@ -53,7 +54,6 @@
         </Adefines>
         <Cdefines>
             <define>USE_FULL_LL_DRIVER</define>
-            <define>MBEDTLS_CONFIG_FILE=&quot;mbedtls_config.h&quot;</define>
         </Cdefines>         
     </definestoremove>
     
@@ -61,6 +61,7 @@
 	   <include>..\Inc</include>
 	   <include>..\Middlewares\Third_Party\LwIP\src\include</include>
 	   <include>..\Middlewares\Third_Party\LwIP\system</include>
+	   <include>..\Middlewares\Third_Party\mbedTLS\include</include>
 	   <include>..\Drivers\STM32F4xx_HAL_Driver\Inc</include>
 	   <include>..\Drivers\STM32F4xx_HAL_Driver\Inc\Legacy</include>
 	   <include>..\Middlewares\Third_Party\FreeRTOS\Source\portable\GCC\ARM_CM4F</include>
@@ -78,6 +79,7 @@
 	   <include>..\Middlewares\Third_Party\LwIP\src\include\posix</include>
 	   <include>..\Middlewares\Third_Party\LwIP\src\include\posix\sys</include>
 	   <include>..\Middlewares\Third_Party\LwIP\system\arch</include>
+	   <include>..\Middlewares\Third_Party\mbedTLS\include\mbedtls</include>
 	   <include>..\Drivers\CMSIS\Include</include>
 
     </Cincludes>
