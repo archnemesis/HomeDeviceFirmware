@@ -39,6 +39,8 @@ static GHandle ghNetworkMessagesRxLabel;
 static GHandle ghIntercomContactList;
 static GHandle ghIntercomCallButton;
 static GHandle ghIntercomTalkButton;
+static GHandle ghIntercomVolumeUpButton;
+static GHandle ghIntercomVolumeDnButton;
 
 static GHandle ghNotificationWindow;
 static GHandle ghNotificationLabel;
@@ -241,14 +243,27 @@ void UserInterfaceThread_SetupUI(void)
 	wi.g.width = half_btn_width;
 	wi.g.height = 60;
 	wi.g.parent = ghMainTabsetIntercomPage;
-	wi.text = "Call";
+	wi.text = "Talk";
 	ghIntercomCallButton = gwinButtonCreate(0, &wi);
 
 	wi.g.x = half_width + 5 + half_btn_width + 5;
 	wi.g.width = half_btn_width;
-	wi.text = "Talk";
+	wi.text = "End";
 	ghIntercomTalkButton = gwinButtonCreate(0, &wi);
 	gwinSetEnabled(ghIntercomTalkButton, FALSE);
+
+	wi.g.x = half_width + 5;
+	wi.g.y = 70;
+	wi.g.width = half_btn_width;
+	wi.g.height = 60;
+	wi.g.parent = ghMainTabsetIntercomPage;
+	wi.text = "-";
+	ghIntercomVolumeDnButton = gwinButtonCreate(0, &wi);
+
+	wi.g.x = half_width + 5 + half_btn_width + 5;
+	wi.g.width = half_btn_width;
+	wi.text = "+";
+	ghIntercomVolumeUpButton = gwinButtonCreate(0, &wi);
 }
 
 void UserInterfaceThread_SetDisplayName(const char *name)
@@ -370,6 +385,12 @@ void UserInterfaceThread_Main(const void * argument)
 				IntercomThread_ChannelClose();
 				gwinSetEnabled(ghIntercomCallButton, TRUE);
 				gwinSetEnabled(ghIntercomTalkButton, FALSE);
+			}
+			else if (btnevent->gwin == ghIntercomVolumeUpButton) {
+				IntercomThread_VolumeUp();
+			}
+			else if (btnevent->gwin == ghIntercomVolumeDnButton) {
+				IntercomThread_VolumeDn();
 			}
 			break;
 		}

@@ -22,5 +22,7 @@ void IntercomThread_Init(void);
 void IntercomThread_ChannelOpen(in_addr_t addr, in_port_t port);
 void IntercomThread_ChannelClose(void);
 void IntercomThread_Main(const void * argument);
+void IntercomThread_VolumeUp(void);
+void IntercomThread_VolumeDn(void);
 
 #endif /* HOMEPROTOCOL_INC_THREAD_INTERCOM_H_ */

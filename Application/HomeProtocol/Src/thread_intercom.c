@@ -11,6 +11,7 @@
 #include <lwip/sockets.h>
 #include "FreeRTOS.h"
 #include "task.h"
+#include "adc.h"
 #include "dac.h"
 #include "tim.h"
 #include "gpio.h"
@@ -24,6 +25,7 @@ static in_port_t remote_port;
 static TaskHandle_t intercom_task;
 
 char *dac_buffer;
+int16_t dac_volume = 1024;
 
 #define FRAME_SIZE 320
 
@@ -44,6 +46,20 @@ void IntercomThread_ChannelOpen(in_addr_t addr, in_port_t port)
 void IntercomThread_ChannelClose(void)
 {
 	xTaskNotify(intercom_task, INTERCOM_NOTIFY_CLOSE_CHANNEL, eSetBits);
+}
+
+void IntercomThread_VolumeUp(void)
+{
+	if (dac_volume < 1024) {
+		dac_volume += 128;
+	}
+}
+
+void IntercomThread_VolumeDn(void)
+{
+	if (dac_volume > 0) {
+		dac_volume -= 128;
+	}
 }
 
 void IntercomThread_Main(const void * argument)
@@ -119,9 +135,8 @@ void IntercomThread_Main(const void * argument)
 				if (xTaskNotifyWait(0x00, ULONG_MAX, &ulNotifiedValue, pdMS_TO_TICKS(1)) == pdTRUE) {
 					if ((ulNotifiedValue & INTERCOM_NOTIFY_CLOSE_CHANNEL) == INTERCOM_NOTIFY_CLOSE_CHANNEL) {
 						close(socket_rx);
-						HAL_TIM_Base_Stop(&htim6);
+						HAL_TIM_Base_Stop_IT(&htim6);
 						HAL_DAC_Stop_DMA(&hdac, DAC_CHANNEL_1);
-						HAL_DAC_Stop(&hdac, DAC_CHANNEL_1);
 
 						HAL_GPIO_WritePin(LED2_GPIO_Port, LED2_Pin, GPIO_PIN_RESET);
 
@@ -183,14 +198,14 @@ void IntercomThread_Main(const void * argument)
 					buf_count += ret;
 					if (buf_count == FRAME_SIZE) {
 						/* Send frame to audio queue and alloc new buffer */
-						if (xQueueSendToBack(xIncomingAudio, (void *)&buf_in, 0) == pdTRUE) {
+						if (xQueueSendToBack(xIncomingAudio, (void *)&buf_in, 1) == pdTRUE) {
 							frame_count++;
 
 							HAL_GPIO_TogglePin(LED3_GPIO_Port, LED3_Pin);
 
 							if (frame_count > 3 && dac_started == 0) {
-								HAL_DAC_Start_DMA(&hdac, DAC_CHANNEL_1, (uint32_t *)dac_buffer, FRAME_SIZE * 2, DAC_ALIGN_12B_R);
-								HAL_TIM_Base_Start(&htim6);
+								HAL_DAC_Start_DMA(&hdac, DAC_CHANNEL_1, (uint32_t *)dac_buffer, FRAME_SIZE, DAC_ALIGN_12B_L);
+								HAL_TIM_Base_Start_IT(&htim6);
 								dac_started = 1;
 							}
 
@@ -208,15 +223,24 @@ void HAL_DAC_ConvCpltCallbackCh1(DAC_HandleTypeDef* hdac)
 {
 	BaseType_t xTaskWokenByReceive0 = pdFALSE;
 	BaseType_t xTaskWokenByReceive1 = pdFALSE;
-	char *buf = NULL;
+	int16_t *buf = NULL;
+	uint16_t *ubuf = NULL;
 
 	/* fill second half of buffer with new frame */
 	if (xQueueReceiveFromISR(xIncomingAudio, (void *)&buf, &xTaskWokenByReceive1) == pdTRUE) {
+		ubuf = (uint16_t *)buf;
+		for (int i = 0; i < (FRAME_SIZE / 2); i++) {
+			buf[i] = buf[i] * dac_volume / 1024;
+			ubuf[i] += 0x8000;
+		}
 		memcpy((void *)(dac_buffer + FRAME_SIZE), (void *)buf, FRAME_SIZE);
 		xQueueSendFromISR(xBufferQueue, (void *)&buf, &xTaskWokenByReceive0);
 	}
 	else {
-		__BKPT();
+		uint16_t *ptr = (uint16_t *)((void *)dac_buffer + FRAME_SIZE);
+		for (int i = 0; i < FRAME_SIZE / 2; i++) {
+			ptr[i] = 32767;
+		}
 	}
 
 	if (xTaskWokenByReceive0 != pdFALSE || xTaskWokenByReceive1 != pdFALSE) {
@@ -228,15 +252,24 @@ void HAL_DAC_ConvHalfCpltCallbackCh1(DAC_HandleTypeDef* hdac)
 {
 	BaseType_t xTaskWokenByReceive0 = pdFALSE;
 	BaseType_t xTaskWokenByReceive1 = pdFALSE;
-	char *buf = NULL;
+	int16_t *buf = NULL;
+	uint16_t *ubuf = NULL;
 
 	/* fill first half of buffer with new frame */
 	if (xQueueReceiveFromISR(xIncomingAudio, (void *)&buf, &xTaskWokenByReceive1) == pdTRUE) {
+		ubuf = (uint16_t *)buf;
+		for (int i = 0; i < (FRAME_SIZE / 2); i++) {
+			buf[i] = buf[i] * dac_volume / 1024;
+			ubuf[i] += 0x8000;
+		}
 		memcpy((void *)dac_buffer, (void *)buf, FRAME_SIZE);
 		xQueueSendFromISR(xBufferQueue, (void *)&buf, &xTaskWokenByReceive0);
 	}
 	else {
-		__BKPT();
+		uint16_t *ptr = (uint16_t *)dac_buffer;
+		for (int i = 0; i < FRAME_SIZE / 2; i++) {
+			ptr[i] = 32767;
+		}
 	}
 
 	if (xTaskWokenByReceive0 != pdFALSE || xTaskWokenByReceive1 != pdFALSE) {
@@ -252,4 +285,14 @@ void HAL_DAC_ErrorCallbackCh1(DAC_HandleTypeDef *hdac)
 void HAL_DAC_DMAUnderrunCallbackCh1(DAC_HandleTypeDef *hdac)
 {
 	__BKPT();
+}
+
+void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc)
+{
+
+}
+
+void HAL_ADC_ConvHalfCpltCallback(ADC_HandleTypeDef* hadc)
+{
+
 }
