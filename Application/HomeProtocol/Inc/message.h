@@ -3,6 +3,10 @@
 #ifndef _MESSAGES_H_
 #define _MESSAGES_H_
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #include <stdint.h>
 #include "FreeRTOS.h"
 
@@ -10,6 +14,9 @@
   #ifndef __weak
     #define __weak   __attribute__((weak))
   #endif /* __weak */
+  #ifndef __packed
+    #define __packed __attribute__((packed))
+  #endif
 #endif /* __GNUC__ */
 
 enum CommandCode {
@@ -68,5 +75,11 @@ void message_send(message_t *message);
 #include "configuration_payload.h"
 #include "ping.h"
 #include "intercom_channel_create.h"
+#include "intercom_directory_listing.h"
+#include "intercom_incoming_channel_request.h"
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif

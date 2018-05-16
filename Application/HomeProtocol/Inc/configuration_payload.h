@@ -2,6 +2,10 @@
 #ifndef _CONFIGURATION_PAYLOAD_MESSAGE_H_
 #define _CONFIGURATION_PAYLOAD_MESSAGE_H_
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #include "message.h"
 #include <stdint.h>
 
@@ -26,6 +30,8 @@ struct configuration_payload_message {
 
 typedef struct configuration_payload_message configuration_payload_message_t;
 
+message_t *configuration_payload_encode_alloc(configuration_payload_message_t *configuration_payload);
+
 /**
  * Encode a message to a buffer, making it ready to send.
  * @param message
@@ -45,5 +51,9 @@ void configuration_payload_decode(message_t *message, configuration_payload_mess
  * @param message
  */
 void configuration_payload_send(configuration_payload_message_t *configuration_payload);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif

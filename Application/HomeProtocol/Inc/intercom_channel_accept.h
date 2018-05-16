@@ -2,6 +2,10 @@
 #ifndef _INTERCOM_CHANNEL_ACCEPT_MESSAGE_H_
 #define _INTERCOM_CHANNEL_ACCEPT_MESSAGE_H_
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #include "message.h"
 #include <stdint.h>
 
@@ -17,6 +21,8 @@ struct intercom_channel_accept_message {
 } __packed;
 
 typedef struct intercom_channel_accept_message intercom_channel_accept_message_t;
+
+message_t *intercom_channel_accept_encode_alloc(intercom_channel_accept_message_t *intercom_channel_accept);
 
 /**
  * Encode a message to a buffer, making it ready to send.
@@ -37,5 +43,9 @@ void intercom_channel_accept_decode(message_t *message, intercom_channel_accept_
  * @param message
  */
 void intercom_channel_accept_send(intercom_channel_accept_message_t *intercom_channel_accept);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif

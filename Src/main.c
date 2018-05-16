@@ -136,8 +136,8 @@ int main(void)
   MX_LTDC_Init();
   MX_SPI2_Init();
   MX_RNG_Init();
-  MX_DAC_Init();
   MX_TIM6_Init();
+  MX_DAC_Init();
 
   /* USER CODE BEGIN 2 */
 

@@ -37,6 +37,7 @@
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include "FreeRTOS.h"
 
 #ifdef HAVE_CONFIG_H
 #include "config.h"
@@ -53,7 +54,10 @@ static inline void *speex_alloc (int size)
    /* WARNING: this is not equivalent to malloc(). If you want to use malloc() 
       or your own allocator, YOU NEED TO CLEAR THE MEMORY ALLOCATED. Otherwise
       you will experience strange bugs */
-   return calloc(size,1);
+	void *ptr = pvPortMalloc(size);
+	if (ptr != NULL)
+		memset(ptr, 0x00, size);
+   return ptr;
 }
 #endif
 
@@ -62,7 +66,10 @@ static inline void *speex_alloc (int size)
 static inline void *speex_alloc_scratch (int size)
 {
    /* Scratch space doesn't need to be cleared */
-   return calloc(size,1);
+	void *ptr = pvPortMalloc(size);
+	if (ptr != NULL)
+		memset(ptr, 0x00, size);
+   return ptr;
 }
 #endif
 
@@ -70,7 +77,8 @@ static inline void *speex_alloc_scratch (int size)
 #ifndef OVERRIDE_SPEEX_REALLOC
 static inline void *speex_realloc (void *ptr, int size)
 {
-   return realloc(ptr, size);
+
+   return pvPortRealloc(ptr, size);
 }
 #endif
 
@@ -78,7 +86,7 @@ static inline void *speex_realloc (void *ptr, int size)
 #ifndef OVERRIDE_SPEEX_FREE
 static inline void speex_free (void *ptr)
 {
-   free(ptr);
+   vPortFree(ptr);
 }
 #endif
 
@@ -86,7 +94,7 @@ static inline void speex_free (void *ptr)
 #ifndef OVERRIDE_SPEEX_FREE_SCRATCH
 static inline void speex_free_scratch (void *ptr)
 {
-   free(ptr);
+	vPortFree(ptr);
 }
 #endif
 

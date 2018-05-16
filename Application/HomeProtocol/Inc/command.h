@@ -2,6 +2,10 @@
 #ifndef _COMMAND_MESSAGE_H_
 #define _COMMAND_MESSAGE_H_
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #include "message.h"
 #include <stdint.h>
 
@@ -16,6 +20,8 @@ struct command_message {
 } __packed;
 
 typedef struct command_message command_message_t;
+
+message_t *command_encode_alloc(command_message_t *command);
 
 /**
  * Encode a message to a buffer, making it ready to send.
@@ -36,5 +42,9 @@ void command_decode(message_t *message, command_message_t *command);
  * @param message
  */
 void command_send(command_message_t *command);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif

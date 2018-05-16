@@ -54,7 +54,7 @@
 #include "dma.h"
 
 /* USER CODE BEGIN 0 */
-
+uint32_t hdac_mode = DMA_CIRCULAR;
 /* USER CODE END 0 */
 
 DAC_HandleTypeDef hdac;
@@ -75,7 +75,7 @@ void MX_DAC_Init(void)
 
     /**DAC channel OUT1 config 
     */
-  sConfig.DAC_Trigger = DAC_TRIGGER_T6_TRGO;
+  sConfig.DAC_Trigger = DAC_TRIGGER_T2_TRGO;
   sConfig.DAC_OutputBuffer = DAC_OUTPUTBUFFER_ENABLE;
   if (HAL_DAC_ConfigChannel(&hdac, &sConfig, DAC_CHANNEL_1) != HAL_OK)
   {

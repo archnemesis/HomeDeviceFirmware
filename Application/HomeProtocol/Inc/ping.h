@@ -2,6 +2,10 @@
 #ifndef _PING_MESSAGE_H_
 #define _PING_MESSAGE_H_
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #include "message.h"
 #include <stdint.h>
 
@@ -16,6 +20,8 @@ struct ping_message {
 } __packed;
 
 typedef struct ping_message ping_message_t;
+
+message_t *ping_encode_alloc(ping_message_t *ping);
 
 /**
  * Encode a message to a buffer, making it ready to send.
@@ -36,5 +42,9 @@ void ping_decode(message_t *message, ping_message_t *ping);
  * @param message
  */
 void ping_send(ping_message_t *ping);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif

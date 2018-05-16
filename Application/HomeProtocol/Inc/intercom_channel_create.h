@@ -2,6 +2,10 @@
 #ifndef _INTERCOM_CHANNEL_CREATE_MESSAGE_H_
 #define _INTERCOM_CHANNEL_CREATE_MESSAGE_H_
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #include "message.h"
 #include <stdint.h>
 
@@ -17,6 +21,8 @@ struct intercom_channel_create_message {
 } __packed;
 
 typedef struct intercom_channel_create_message intercom_channel_create_message_t;
+
+message_t *intercom_channel_create_encode_alloc(intercom_channel_create_message_t *intercom_channel_create);
 
 /**
  * Encode a message to a buffer, making it ready to send.
@@ -37,5 +43,9 @@ void intercom_channel_create_decode(message_t *message, intercom_channel_create_
  * @param message
  */
 void intercom_channel_create_send(intercom_channel_create_message_t *intercom_channel_create);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif

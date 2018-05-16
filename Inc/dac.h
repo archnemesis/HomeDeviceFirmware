@@ -65,6 +65,8 @@ extern DAC_HandleTypeDef hdac;
 
 /* USER CODE BEGIN Private defines */
 
+extern uint32_t hdac_mode;
+
 /* USER CODE END Private defines */
 
 extern void _Error_Handler(char *, int);

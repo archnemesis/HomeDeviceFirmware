@@ -68,7 +68,6 @@
 
 /* Variables -----------------------------------------------------------------*/
 osThreadId defaultTaskHandle;
-osThreadId adcSampleTaskHandle;
 
 /* USER CODE BEGIN Variables */
 
@@ -77,7 +76,7 @@ osThreadId uiTaskHandle;
 osThreadId intercomTaskHandle;
 
 QueueHandle_t xSampleQueue;
-QueueHandle_t xBufferQueue;
+QueueHandle_t xRxBufferQueue;
 const int iBufferCount = 4;
 const int iBufferSize = 128;
 
@@ -85,7 +84,6 @@ const int iBufferSize = 128;
 
 /* Function prototypes -------------------------------------------------------*/
 void StartDefaultTask(void const * argument);
-void StartAdcSampleTask(void const * argument);
 
 extern void MX_LWIP_Init(void);
 extern void MX_USB_DEVICE_Init(void);
@@ -174,56 +172,7 @@ void StartDefaultTask(void const * argument)
   /* USER CODE END StartDefaultTask */
 }
 
-/* StartAdcSampleTask function */
-void StartAdcSampleTask(void const * argument)
-{
-  /* USER CODE BEGIN StartAdcSampleTask */
-
-	xSampleQueue = xQueueCreate(iBufferSize, sizeof(uint16_t));
-
-	int bufferIndex = 0;
-	uint16_t *activeBuffer = 0;
-	uint16_t sample;
-
-	for(;;)
-	{
-		if (xSampleQueue != 0) {
-			if (xQueueReceive(xSampleQueue, (uint16_t *)&sample, portMAX_DELAY)) {
-				if (bufferIndex == 0) {
-					activeBuffer = pvPortMalloc(iBufferSize * sizeof(uint16_t));
-				}
-
-				// we got a sample!
-				HAL_GPIO_TogglePin(LED3_GPIO_Port, LED3_Pin);
-				activeBuffer[bufferIndex++] = sample;
-
-				if (bufferIndex == iBufferSize) {
-					// put the buffer on the network frame queue
-					vPortFree(activeBuffer);
-					bufferIndex = 0;
-				}
-			}
-		}
-	}
-  /* USER CODE END StartAdcSampleTask */
-}
-
 /* USER CODE BEGIN Application */
-
-void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc)
-{
-	int16_t val = 0;
-	BaseType_t xHigherPriorityTaskWoken;
-
-	HAL_GPIO_TogglePin(LED1_GPIO_Port, LED1_Pin);
-	val = (int16_t)((int32_t)HAL_ADC_GetValue(&hadc1) - 32767);
-
-	xQueueSendToBackFromISR(xSampleQueue, (uint16_t *)&val, &xHigherPriorityTaskWoken);
-
-	if (xHigherPriorityTaskWoken) {
-		portYIELD_FROM_ISR(pdTRUE);
-	}
-}
      
 /* USER CODE END Application */
 
